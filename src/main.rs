@@ -1,5 +1,4 @@
 use std::fs;
-use std::io::{stdout, Write};
 
 extern crate yaml_rust;
 use yaml_rust::YamlLoader;
@@ -42,7 +41,9 @@ impl GoogleDomainsDDNS {
 
             easy.url(http.as_str()).unwrap();
             easy.write_function(|response| {
-                stdout().write_all(response).unwrap();
+                let response_str = String::from_utf8(response.to_vec()).unwrap();
+                println!("{}", response_str);
+                
                 Ok(response.len())
             })
             .unwrap();
